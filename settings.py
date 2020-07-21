@@ -3,4 +3,3 @@ import os
 load_dotenv(verbose=True)
 
 DB_PASSWORD = os.getenv('DB_PASSWORD')
-print(DB_PASSWORD)
