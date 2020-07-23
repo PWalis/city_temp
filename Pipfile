@@ -11,6 +11,9 @@ sqlalchemy = "*"
 dash = "*"
 plotly = "*"
 gunicorn = "*"
+python-dotenv = "*"
+numpy = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

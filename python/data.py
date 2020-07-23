@@ -1,6 +1,7 @@
 import pandas as pd 
 import sqlalchemy 
 from .mysql_db.database import database as db
+from .postgres_db.pg_database import database as pg_db
 from python.figure import vis
 
 '''
@@ -14,8 +15,9 @@ class data():
     Loading data and filtering data
     '''
     def __init__(self):
-        self.data = db().retrieve()
+        # self.data = db().retrieve()
         # self.data = pd.read_csv('./data/clean_city_temp.csv')
+        self.data = pg_db().retrieve()
 
     def filter(self, region, country, state, city ):
         '''

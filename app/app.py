@@ -16,6 +16,9 @@ region_country, country_city, state_city = data_object.get_dict()
 external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyborg/bootstrap.min.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+server = app.server
+
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink('Visualization', href='#vis')),
