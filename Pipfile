@@ -14,6 +14,9 @@ gunicorn = "*"
 python-dotenv = "*"
 numpy = "*"
 psycopg2 = "*"
+dash-bootstrap-components = "*"
+dash-core-components = "*"
+dash-html-components = "*"
 
 [requires]
 python_version = "3.7"
