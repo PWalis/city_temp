@@ -6,18 +6,18 @@ from dash.dependencies import Input, Output
 import plotly.express as px 
 import plotly.graph_objects as go
 import pandas as pd 
-from python.data import data
+from python.postgres_db.pg_database import database as db
 
 # assigning df to object variable data 
-data_object = data()
-df = data_object.data
+data_object = db()
+# df = data_object.data
 region_country, country_city, state_city = data_object.get_dict()
 
 external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyborg/bootstrap.min.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-server = app.server
+# server = app.server
 
 navbar = dbc.NavbarSimple(
     children=[
@@ -107,9 +107,9 @@ def update_state_drop(selected_country):
 def update_city_drop(selected_country, selected_state):
     if selected_country and selected_state is not None:
         if selected_country != 'US':
-            print(selected_country, '/n')
+            print(selected_country)
             return [{'label':x, 'value':x} for x in country_city.get(selected_country)]
-        elif selected_country == 'US' and state_city.get(selected_state).any() != None:
+        elif selected_country == 'US' and selected_state != None:
             print(type(selected_state))
             return [{'label':x, 'value':x} for x in state_city.get(selected_state)]
     else:
