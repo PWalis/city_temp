@@ -48,10 +48,10 @@ class database():
         return vis(df).create_vis()
         
     def get_dict(self):
-        with open('app/region_country.json') as f:
+        with open('app_dicts/region_country.json') as f:
             region_country = json.load(f)
-        with open('app/country_city.json') as f:
+        with open('app_dicts/country_city.json') as f:
             country_city = json.load(f)
-        with open('app/state_city.json') as f:
+        with open('app_dicts/state_city.json') as f:
             state_city = json.load(f)
         return region_country, country_city, state_city
