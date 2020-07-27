@@ -17,7 +17,7 @@ external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyb
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# server = app.server
+server = app.server
 
 navbar = dbc.NavbarSimple(
     children=[
