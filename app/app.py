@@ -1,4 +1,5 @@
 import dash
+import flask
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc 
 import dash_html_components as html
@@ -15,9 +16,9 @@ region_country, country_city, state_city = data_object.get_dict()
 
 external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyborg/bootstrap.min.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = flask.Flask(__name__)
 
-server = app.server
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 navbar = dbc.NavbarSimple(
     children=[
@@ -127,3 +128,6 @@ def update_graph(region, country, state, city):
         return data_object.filter(region, country, state, city)
     else:
         return data_object.filter('None', 'None', 'None', 'None')
+
+if __name__ == '__main__':
+    app.server.run(debug=False)
