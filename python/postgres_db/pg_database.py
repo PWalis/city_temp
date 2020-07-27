@@ -16,26 +16,32 @@ class database():
         self.cursor = self.conn.cursor()
 
     def filter(self, Region, Country, State, City):
-        # query = '''
-        # select * from city_temp
-        # where "Region"=%s
-        # and "Country"=%s
-        # and "State"=%s
-        # and "City"=%s
-        # '''
-        query = """
+        query_1 = """
         select * from city_temp
         where ("Region", "Country", "State", "City")  
         in ((%s, %s, %s, %s));
         """
-        values = [Region, Country, State, City]
-        try:
-            self.cursor.execute(query, values)
-            records = self.cursor.fetchall()
-        except Exception as e:
-            print('Error: ', e)
-            self.conn.rollback()
-        # return self.cursor.fetchall()
+        query_2 = """
+        select * from city_temp
+        where ("Region", "Country", "City")  
+        in ((%s, %s, %s));
+        """
+        values_1 = [Region, Country, State, City]
+        values_2 = [Region, Country, City]
+        if Country == 'US':
+            try:
+                self.cursor.execute(query_1, values_1)
+                records = self.cursor.fetchall()
+            except Exception as e:
+                print('Error: ', e)
+                self.conn.rollback()
+        else:
+            try:
+                self.cursor.execute(query_2, values_2)
+                records = self.cursor.fetchall()
+            except Exception as e:
+                print('Error: ', e)
+                self.conn.rollback()
         df = pd.DataFrame(records)
         df.columns = ['Region', 'Country', 'State', 'City', 'Month', 'Day', 'Year',
        'AvgTemperature']
