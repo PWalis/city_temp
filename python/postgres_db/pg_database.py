@@ -3,7 +3,7 @@ import pandas as pd
 import pandas.io.sql as sqlio
 from python.figure import vis
 import json
-from settings import DATABASE_URL
+from settings import DATABASE_URL, DB_PASSWORD
 
 class database():
     '''
@@ -43,8 +43,7 @@ class database():
                 print('Error: ', e)
                 self.conn.rollback()
         df = pd.DataFrame(records)
-        df.columns = ['Region', 'Country', 'State', 'City', 'Month', 'Day', 'Year',
-       'AvgTemperature']
+        df.columns = ['Region', 'Country', 'State', 'City','AvgTemperature', 'Date']
         return vis(df).create_vis()
         
     def get_dict(self):
