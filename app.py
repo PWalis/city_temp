@@ -11,34 +11,31 @@ from python.postgres_db.pg_database import database as db
 
 # assigning df to object variable data 
 data_object = db()
-# df = data_object.data
+
 region_country, country_city, state_city = data_object.get_dict()
 
 external_stylesheets = ['https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyborg/bootstrap.min.css']
 
-# server = flask.Flask(__name__)
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = 'Temperature Data'
 server = app.server
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink('Visualization', href='#vis')),
-        dbc.NavItem(dbc.NavLink('Documentation', href='#doc')),
+        dbc.NavItem(dbc.NavLink('About', href='#vis')),
         dbc.DropdownMenu(
             children=[
-                dbc.DropdownMenuItem("Datasets", header=True),
-                dbc.DropdownMenuItem("City Temperature", href="#city_temp"),
-                dbc.DropdownMenuItem("Other dataset", href="#other_data"),
+                dbc.DropdownMenuItem([html.I(className='linkedin'), ' LinkedIn'], href='https://www.linkedin.com/in/patrick-wilky/', target='_blank'),
+                dbc.DropdownMenuItem([html.I(className='github'), ' GitHub'], href='https://github.com/PWalis/city_temp', target='_blank'),
             ],
             nav=True,
             in_navbar=True,
-            label="Data",
+            label="Links",
         ),
     ],
     brand="Data Visualizer",
     brand_href="#",
-    color="primary",
+    color="#343187",
     dark=True,
 )
 
