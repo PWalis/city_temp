@@ -62,10 +62,12 @@ class database():
         if df.empty != True:
             stats = df['AvgTemperature'].describe()
             count = stats.iloc[0]
-            minimum = df.min().iloc[-2:].values
-            maxmimum = df.max().iloc[-2:].values
-            min_string = f'{minimum[0]} {minimum[1]}'
-            max_string = f'{maxmimum[0]} {maxmimum[1]}'
+            minimum = df['AvgTemperature'].min()
+            maxmimum = df['AvgTemperature'].max()
+            min_date = df[df['AvgTemperature']==minimum]['Date'].iloc[0]
+            max_date = df[df['AvgTemperature']==maxmimum]['Date'].iloc[0]
+            min_string = f'{minimum} {min_date}'
+            max_string = f'{maxmimum} {max_date}'
             return count, min_string, max_string
     
     def update_df(self, df):
