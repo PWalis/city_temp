@@ -75,10 +75,13 @@ inputs = dbc.Row([
 ],
 form=True,)
 
+card = html.Div(id='stats_card')
+
 app.layout = dbc.Container(fluid=True, children=[
     navbar,
     inputs,
     graph,
+    card,
     ])
 
 @app.callback(
@@ -126,6 +129,39 @@ def update_graph(region, country, state, city):
         return data_object.filter(region, country, state, city)
     else:
         return data_object.filter('None', 'None', 'None', 'None')
+    
+@app.callback(
+    Output('stats_card', 'children'),
+    [Input('temp_graph', 'figure')]
+)
+def update_card(city):
+    if city != None:
+        count, minimum, maximum = data_object.get_stats()
+        # card = dbc.Card(body=True, className='stats-card', children=[
+        #     html.H5('Data Points'),
+        #     html.H5('{:,.0f}'.format(count), style={'color':'white'}),
+        # ])
+        card = dbc.Row([
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Data Points'),
+                    html.H5('{:,.0f}'.format(count), style={'color':'white'}), 
+                ])
+            ),
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Coldest Day'),
+                    html.H5(minimum, style={'color':'white'}), 
+                ])
+            ),
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Hotest Day'),
+                    html.H5(maximum, style={'color':'white'}), 
+                ])
+            )
+        ])
+        return card
 
 if __name__ == '__main__':
     app.server.run(debug=False)

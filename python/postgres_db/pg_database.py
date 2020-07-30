@@ -14,6 +14,7 @@ class database():
     def __init__(self):
         self.conn = psycopg2.connect(DATABASE_URL)
         self.cursor = self.conn.cursor()
+        self.df = pd.DataFrame()
 
     def filter(self, Region, Country, State, City):
         query_1 = """
@@ -43,7 +44,8 @@ class database():
                 print('Error: ', e)
                 self.conn.rollback()
         df = pd.DataFrame(records)
-        df.columns = ['Region', 'Country', 'State', 'City','AvgTemperature', 'Date']
+        df.columns = ['Region', 'Country', 'State', 'City', 'AvgTemperature', 'Date']
+        self.update_df(df)
         return vis(df).create_vis()
         
     def get_dict(self):
@@ -54,3 +56,18 @@ class database():
         with open('app_dicts/state_city.json') as f:
             state_city = json.load(f)
         return region_country, country_city, state_city
+
+    def get_stats(self):
+        df = self.df
+        if df.empty != True:
+            stats = df['AvgTemperature'].describe()
+            count = stats.iloc[0]
+            minimum = df.min().iloc[-2:].values
+            maxmimum = df.max().iloc[-2:].values
+            min_string = f'{minimum[0]} {minimum[1]}'
+            max_string = f'{maxmimum[0]} {maxmimum[1]}'
+            return count, min_string, max_string
+    
+    def update_df(self, df):
+        self.df = df
+        
