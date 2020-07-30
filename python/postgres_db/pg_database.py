@@ -43,10 +43,13 @@ class database():
             except Exception as e:
                 print('Error: ', e)
                 self.conn.rollback()
-        df = pd.DataFrame(records)
-        df.columns = ['Region', 'Country', 'State', 'City', 'AvgTemperature', 'Date']
-        self.update_df(df)
-        return vis(df).create_vis()
+        if len(records) != 0:      
+            df = pd.DataFrame(records)
+            df.columns = ['Region', 'Country', 'State', 'City', 'AvgTemperature', 'Date']
+            self.update_df(df)
+            return vis(df).create_vis()
+        else:
+            return vis(pd.DataFrame).create_vis()
         
     def get_dict(self):
         with open('app_dicts/region_country.json') as f:
@@ -59,7 +62,7 @@ class database():
 
     def get_stats(self):
         df = self.df
-        if df.empty != True:
+        if df.empty == False:
             stats = df['AvgTemperature'].describe()
             count = stats.iloc[0]
             minimum = df['AvgTemperature'].min()
@@ -69,6 +72,8 @@ class database():
             min_string = f'{minimum} {min_date}'
             max_string = f'{maxmimum} {max_date}'
             return count, min_string, max_string
+        else:
+            return 0, ' ', ' '
     
     def update_df(self, df):
         self.df = df

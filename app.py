@@ -109,10 +109,8 @@ def update_state_drop(selected_country):
 def update_city_drop(selected_country, selected_state):
     if selected_country and selected_state is not None:
         if selected_country != 'US':
-            print(selected_country)
             return [{'label':x, 'value':x} for x in country_city.get(selected_country)]
         elif selected_country == 'US' and selected_state != None:
-            print(type(selected_state))
             return [{'label':x, 'value':x} for x in state_city.get(selected_state)]
     else:
         return [{'label':'None', 'value':'None'}]
@@ -134,13 +132,9 @@ def update_graph(region, country, state, city):
     Output('stats_card', 'children'),
     [Input('temp_graph', 'figure')]
 )
-def update_card(city):
-    if city != None:
+def update_card(figure):
+    if figure != None:
         count, minimum, maximum = data_object.get_stats()
-        # card = dbc.Card(body=True, className='stats-card', children=[
-        #     html.H5('Data Points'),
-        #     html.H5('{:,.0f}'.format(count), style={'color':'white'}),
-        # ])
         card = dbc.Row([
             dbc.Col(
                 dbc.Card(body=True, className='stats-card', children=[
@@ -156,7 +150,7 @@ def update_card(city):
             ),
             dbc.Col(
                 dbc.Card(body=True, className='stats-card', children=[
-                    html.H5('Hotest Day'),
+                    html.H5('Hottest Day'),
                     html.H5(maximum, style={'color':'white'}), 
                 ])
             )

@@ -8,7 +8,6 @@ class vis():
     
     def __init__(self, df):
         self.df = df
-        self.location = list(df[['Region', 'Country', 'State', 'City']].iloc[0])
 
     def loc_string(self, location):
         country = location[1]
@@ -21,6 +20,12 @@ class vis():
 
     def create_vis(self):
         fig = go.Figure()
+
+        if self.df.empty == False:
+            location = list(self.df[['Region', 'Country', 'State', 'City']].iloc[0])
+        else:
+            return fig
+
         fig.add_trace(go.Scatter(x=self.df['Date'], y=self.df['AvgTemperature'], mode='markers', name='data', line={'color':'black'}))
         fig.update_layout(plot_bgcolor='white',
                           annotations=[
@@ -47,7 +52,7 @@ class vis():
                                   x=0.03,
                                   y=1.2,
                                   showarrow=False,
-                                  text=self.loc_string(self.location),
+                                  text=self.loc_string(location),
                                   font_size=20,
                                   xref='paper',
                                   yref='paper'
