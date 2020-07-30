@@ -49,7 +49,6 @@ class database():
             self.update_df(df)
             return vis(df).create_vis()
         else:
-            self.update_df(pd.DataFrame)
             return vis(pd.DataFrame).create_vis()
         
     def get_dict(self):
