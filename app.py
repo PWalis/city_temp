@@ -133,29 +133,28 @@ def update_graph(region, country, state, city):
     [Input('temp_graph', 'figure')]
 )
 def update_card(figure):
-    if figure != None:
-        count, minimum, maximum = data_object.get_stats()
-        card = dbc.Row([
-            dbc.Col(
-                dbc.Card(body=True, className='stats-card', children=[
-                    html.H5('Data Points'),
-                    html.H5('{:,.0f}'.format(count), style={'color':'white'}), 
-                ])
-            ),
-            dbc.Col(
-                dbc.Card(body=True, className='stats-card', children=[
-                    html.H5('Coldest Day'),
-                    html.H5(minimum, style={'color':'white'}), 
-                ])
-            ),
-            dbc.Col(
-                dbc.Card(body=True, className='stats-card', children=[
-                    html.H5('Hottest Day'),
-                    html.H5(maximum, style={'color':'white'}), 
-                ])
-            )
-        ])
-        return card
+    count, minimum, maximum = data_object.get_stats()
+    card = dbc.Row([
+        dbc.Col(
+            dbc.Card(body=True, className='stats-card', children=[
+                html.H5('Data Points'),
+                html.H5('{:,.0f}'.format(count), style={'color':'white'}), 
+            ])
+        ),
+        dbc.Col(
+            dbc.Card(body=True, className='stats-card', children=[
+                html.H5('Coldest Day'),
+                html.H5(minimum, style={'color':'white'}), 
+            ])
+        ),
+        dbc.Col(
+            dbc.Card(body=True, className='stats-card', children=[
+                html.H5('Hottest Day'),
+                html.H5(maximum, style={'color':'white'}), 
+            ])
+        )
+    ])
+    return card
 
 if __name__ == '__main__':
     app.server.run(debug=False)
