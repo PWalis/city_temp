@@ -115,6 +115,40 @@ def update_city_drop(selected_country, selected_state):
     else:
         return [{'label':'None', 'value':'None'}]
 
+
+    
+@app.callback(
+    Output('stats_card', 'children'),
+    [Input('dropdown_region', 'value'),
+     Input('dropdown_country', 'value'),
+     Input('dropdown_state', 'value'),
+     Input('dropdown_city', 'value')]
+)
+def update_card(region, country, state, city):
+    if city != None:
+        count, minimum, maximum = data_object.get_stats(region, country, state, city)
+        card = dbc.Row([
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Data Points'),
+                    html.H5('{:,.0f}'.format(count), style={'color':'white'}), 
+                ])
+            ),
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Coldest Day'),
+                    html.H5(minimum, style={'color':'white'}), 
+                ])
+            ),
+            dbc.Col(
+                dbc.Card(body=True, className='stats-card', children=[
+                    html.H5('Hottest Day'),
+                    html.H5(maximum, style={'color':'white'}), 
+                ])
+            )
+        ])
+        return card
+    
 @app.callback(
     Output('temp_graph', 'figure'),
     [Input('dropdown_region', 'value'),
@@ -127,34 +161,6 @@ def update_graph(region, country, state, city):
         return data_object.filter(region, country, state, city)
     else:
         return data_object.filter('None', 'None', 'None', 'None')
-    
-@app.callback(
-    Output('stats_card', 'children'),
-    [Input('temp_graph', 'figure')]
-)
-def update_card(figure):
-    count, minimum, maximum = data_object.get_stats()
-    card = dbc.Row([
-        dbc.Col(
-            dbc.Card(body=True, className='stats-card', children=[
-                html.H5('Data Points'),
-                html.H5('{:,.0f}'.format(count), style={'color':'white'}), 
-            ])
-        ),
-        dbc.Col(
-            dbc.Card(body=True, className='stats-card', children=[
-                html.H5('Coldest Day'),
-                html.H5(minimum, style={'color':'white'}), 
-            ])
-        ),
-        dbc.Col(
-            dbc.Card(body=True, className='stats-card', children=[
-                html.H5('Hottest Day'),
-                html.H5(maximum, style={'color':'white'}), 
-            ])
-        )
-    ])
-    return card
-
+        
 if __name__ == '__main__':
     app.server.run(debug=False)
